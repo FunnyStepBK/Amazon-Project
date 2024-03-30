@@ -656,5 +656,37 @@ const products = [
       "apparel",
       "mens"
     ]
+  },
+  {
+    id: "ac2847e9-AN23-58n0-b7cf-57fde044a766",
+    image: "images/products/umbrella.jpg",
+    name: 'Repel Umbrella The Original Portable Travel Umbrella',
+    rating: {
+      stars: 3.5,
+      count: 571
+    },
+    priceCents: 2999,
+    keywords: [
+      "Durable",
+      "Nylon",
+      "Strong",
+      "Compact"
+    ]
+  },
+  {
+    id: "ds9727f4-LO61-58n0-jxag-07fde055m318",
+    image: "images/products/backpack.jpg",
+    name: 'Travel Laptop Backpack, Business Anti Theft Slim RFID Blocking',
+    rating: {
+      stars: 5,
+      count: 4593
+    },
+    priceCents: 8754,
+    keywords: [
+      "Laptop",
+      "Anti-Theft",
+      "Durable",
+      "Slim"
+    ]
   }
 ];

@@ -17,7 +17,7 @@ products.forEach((product) => {
         <img class="product-rating-stars"
           src="images/ratings/rating-${product.rating.stars * 10}.png">
         <div class="product-rating-count link-primary">
-          ${product.rating.stars}
+          ${product.rating.count}
         </div>
       </div>
 
@@ -26,7 +26,7 @@ products.forEach((product) => {
       </div>
 
       <div class="product-quantity-container">
-        <select>
+        <select class="js-item-quantity-${product.id}">
           <option selected value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -42,7 +42,7 @@ products.forEach((product) => {
 
       <div class="product-spacer"></div>
 
-      <div class="added-to-cart">
+      <div class="added-to-cart js-added-message-${product.id}">
         <img src="images/icons/checkmark.png">
         Added
       </div>
@@ -58,11 +58,15 @@ document.querySelector('.js-products-grid')
  .innerHTML = productsHTML
 ;
 
+let addedMessageTimeouts = {};
+
 document.querySelectorAll('.js-cart-btn')
   .forEach((button) => {
     button.addEventListener('click', () => {
-      const productName = button.dataset.productId;
+      
+      const {productId, productName} = button.dataset;
 
+      // CART MANAGER
       let matchingItem;
 
       cart.forEach((item) => {
@@ -71,12 +75,16 @@ document.querySelectorAll('.js-cart-btn')
         }
       })
 
+      const itemQuantity = document.querySelector(`.js-item-quantity-${productId}`);
+
+      const quantity = Number(itemQuantity.value)
+
       if (matchingItem) {
-        matchingItem.quantity += 1;
+        matchingItem.quantity += quantity;
       } else {
         cart.push({
-          productName: productName,
-          quantity: 1
+          productName,
+          quantity
         });
       };
 
@@ -87,6 +95,24 @@ document.querySelectorAll('.js-cart-btn')
       });
 
       document.querySelector('.js-cart-quantity').innerText = cartQuantity;
+
+      
+      // ADDED MESSAGE TEXT REVEAL
+      const addedMessage = document.querySelector(`.js-added-message-${productId}`);
+
+      addedMessage.classList.add('added-to-cart-active');      
+
+      const previousTimeoutId = addedMessageTimeouts[productId];
+      if (previousTimeoutId) {
+        clearTimeout(previousTimeoutId);
+      }
+
+      const timeoutId = setTimeout(() => {
+        addedMessage.classList.remove('added-to-cart-active');
+      }, 2000);
+
+      addedMessageTimeouts[productId]= timeoutId;
+
     });
   });
 ;
