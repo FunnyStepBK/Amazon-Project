@@ -1,5 +1,5 @@
-import {cart} from '../data/cart.js';
-import {products} from '../data/products.js'
+import {products} from '../data/products.js';
+import {cart, addToCart} from '../data/cart.js';
 
 let productsHTML = '';
 
@@ -28,7 +28,7 @@ products.forEach((product) => {
       </div>
 
       <div class="product-quantity-container">
-        <select class="js-item-quantity-${product.id}">
+        <select class="js-cartItem-quantity-${product.id}">
           <option selected value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -60,49 +60,25 @@ document.querySelector('.js-products-grid')
  .innerHTML = productsHTML
 ;
 
-let addedMessageTimeouts = {};
-
-
-// CART MANAGER
-function cartManager (productId, productName) {
-  let matchingItem;
-
-  cart.forEach((item) => {
-    if (productName === item.productName) {
-      matchingItem = item;
-    }
-  })
-
-  const itemQuantity = document.querySelector(`.js-item-quantity-${productId}`);
-
-  const quantity = Number(itemQuantity.value)
-
-  if (matchingItem) {
-    matchingItem.quantity += quantity;
-  } else {
-    cart.push({
-      productName,
-      quantity
-    });
-  };
-}
-
-
 // CART QUANTITY DISPLAY
-function onPageCartQunatity() {
+export function onPageCartQunatity() {
 
   let cartQuantity = 0;
 
-  cart.forEach((item) => {
-    cartQuantity += item.quantity;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
   });
 
   document.querySelector('.js-cart-quantity').innerText = cartQuantity;
 }
 
 
-// ADDED MESSAGE TEXT REVEAL
-function addedMesagePopup (productId) {
+// TEXT MESSAGE ADDED POP-UP
+
+let addedMessageTimeouts = {};
+
+
+export function addedMesagePopup (productId) {
   const addedMessage = document.querySelector(`.js-added-message-${productId}`);
 
   addedMessage.classList.add('added-to-cart-active');      
@@ -120,7 +96,6 @@ function addedMesagePopup (productId) {
 }
 
 
-
 document.querySelectorAll('.js-cart-btn')
   .forEach((button) => {
     button.addEventListener('click', () => {
@@ -128,13 +103,11 @@ document.querySelectorAll('.js-cart-btn')
       const {productId, productName} = button.dataset;
 
       // CART MANAGER
-      cartManager(productId, productName);
-      
-     
+      addToCart(productId, productName);
+          
       // CART QUANTITY DISPLAY 
       onPageCartQunatity();
-
-      
+ 
       // ADDED MESSAGE TEXT REVEAL
       addedMesagePopup(productId);
 
