@@ -1,19 +1,12 @@
-export let cart = [{
-  productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-  quantity: 2
-},
-{
-  productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-  quantity: 1
-}];
+export let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 
 // CART MANAGER
-export function addToCart (productId, productName) {
+export function addToCart (productId, cartQuantity) {
   let matchingItem;
 
   cart.forEach((cartItem) => {
-    if (productName === cartItem.productName) {
+    if (productId === cartItem.productId) {
       matchingItem = cartItem;
     }
   })
@@ -26,10 +19,13 @@ export function addToCart (productId, productName) {
     matchingItem.quantity += quantity;
   } else {
     cart.push({
-      productName,
+      productId,
       quantity
     });
   };
+
+  localStorage.setItem('cartQuantity', JSON.stringify(cartQuantity));
+  localStorage.setItem('cart', JSON.stringify(cart));
 }
 
 export function removeFromCart (productId) {
@@ -41,5 +37,24 @@ export function removeFromCart (productId) {
     }
 
     cart = newCart;
+    localStorage.setItem('cart', JSON.stringify(cart));
   })
+}
+
+export function updateQuantity (productId, newQuantity) {
+  cart.forEach((cartItem) => {
+    if (cartItem.productId === productId) {
+      if (newQuantity) {
+        if (newQuantity > 0 && newQuantity < 100) {
+          cartItem.quantity = Number(newQuantity);
+          document.querySelector(`.quantity-label-${productId}`)
+            .innerText = cartItem.quantity;
+          ;  
+        } else {
+          alert('Invalid Quantity');
+        }
+      }
+    }
+  });
+  localStorage.setItem('cart', JSON.stringify(cart));
 }

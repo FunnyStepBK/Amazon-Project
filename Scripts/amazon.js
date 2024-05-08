@@ -4,6 +4,8 @@ import { formatCurrency } from './utils/money.js';
 
 let productsHTML = '';
 
+export let cartQuantity = JSON.parse(localStorage.getItem('cartQuantity'));
+
 products.forEach((product) => {
   productsHTML += `
     <div class="product-container">
@@ -50,7 +52,7 @@ products.forEach((product) => {
         Added
       </div>
 
-      <button class="add-to-cart-button button-primary js-cart-btn" data-product-id= "${product.id}">
+      <button class="add-to-cart-button button-primary js-cart-btn" data-product-id="${product.id}">
         Add to Cart
       </button>
     </div>`
@@ -61,16 +63,19 @@ document.querySelector('.js-products-grid')
  .innerHTML = productsHTML
 ;
 
+onPageCartQuantity();
+document.querySelector('.js-cart-quantity').innerText = cartQuantity;
+
 // CART QUANTITY DISPLAY
-export function onPageCartQunatity() {
-
-  let cartQuantity = 0;
-
+export function onPageCartQuantity() {
+  let totalQuantity = 0;
   cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
+    totalQuantity += cartItem.quantity;
   });
+  cartQuantity = totalQuantity;
 
-  document.querySelector('.js-cart-quantity').innerText = cartQuantity;
+  // Update cart quantity in localStorage
+  localStorage.setItem('cartQuantity', JSON.stringify(cartQuantity));
 }
 
 
@@ -101,13 +106,14 @@ document.querySelectorAll('.js-cart-btn')
   .forEach((button) => {
     button.addEventListener('click', () => {
       
-      const {productId, productName} = button.dataset;
+      const productId = button.dataset.productId;
 
       // CART MANAGER
-      addToCart(productId, productName);
+      addToCart(productId, cartQuantity);
           
       // CART QUANTITY DISPLAY 
-      onPageCartQunatity();
+      onPageCartQuantity();
+      document.querySelector('.js-cart-quantity').innerText = cartQuantity;
  
       // ADDED MESSAGE TEXT REVEAL
       addedMesagePopup(productId);
