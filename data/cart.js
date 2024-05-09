@@ -67,4 +67,18 @@ export function updateQuantity (productId, newQuantity) {
     }
   });
   localStorage.setItem('cart', JSON.stringify(cart));
+} 
+
+export function updateDeliveryOption (productId, deliveryOptionId) {
+  let matchingItem;
+
+  cart.forEach((cartItem) => {
+    if (productId === cartItem.productId) {
+      matchingItem = cartItem;
+    }
+  });
+
+  matchingItem.deliveryOptionId = deliveryOptionId;
+
+  localStorage.setItem('cart', JSON.stringify(cart));
 }
