@@ -1,39 +1,25 @@
-import {cart, removeFromCart, updateQuantity, updateDeliveryOption} from '../../data/cart.js';
-import {products} from '../../data/products.js';
+import {cart, removeFromCart, updateQuantity, updateDeliveryOption, updateCartQunatity} from '../../data/cart.js';
+import {products, getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import { deliveryOptions } from '../../data/deliveryOptions.js';
+import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.js';
+import { renderPaymentSummary } from './paymentSummary.js';
 
 export function renderOrderSummary () {
 
   let cartSummaryHTML = '';
 
-  let cartQuantity = 0;
-
+  let cartQuantity = updateCartQunatity();
 
   cart.forEach((cartItem) => {
 
     const productId = cartItem.productId;
 
-    cartQuantity += cartItem.quantity;
-
-    let matchingProduct;
-
-    products.forEach((product) => {
-      if (product.id === productId) {
-        matchingProduct = product;
-      }
-    });
+    const matchingProduct = getProduct(productId);
 
     const deliveryOptionId = cartItem.deliveryOptionId;
 
-    let deliveryOption;
-
-    deliveryOptions.forEach((option) => {
-      if (option.id === deliveryOptionId) {
-        deliveryOption = option;
-      }
-    }); 
+    const deliveryOption = getDeliveryOption(deliveryOptionId);
 
     const today = dayjs();
     const deliveryDate = today.add(
@@ -148,15 +134,6 @@ export function renderOrderSummary () {
           input.parentElement.nextElementSibling.style.display = 'initial';
           input.parentElement.previousElementSibling.style.display = 'initial';
           updateQuantity(productId, input.value);
-          let totalQuantity = 0;
-          cart.forEach((cartItem) => {
-              totalQuantity += cartItem.quantity;
-          });
-          cartQuantity = totalQuantity;
-          document.querySelector
-          ('.js-cart-total-quantity')
-            .innerText = `${cartQuantity} Items`
-          ;
         }
       });
     });
@@ -187,10 +164,8 @@ export function renderOrderSummary () {
             totalQuantity += cartItem.quantity;
           });
           cartQuantity = totalQuantity;
-          document.querySelector
-          ('.js-cart-total-quantity')
-            .innerText = `${cartQuantity} Items`
-          ;
+          renderOrderSummary();
+          renderPaymentSummary();
         }); 
         
       }); 
@@ -226,7 +201,13 @@ export function renderOrderSummary () {
         const {productId, deliveryOptionId} = option.dataset;
         updateDeliveryOption(productId, deliveryOptionId);
         renderOrderSummary();
+        renderPaymentSummary();
       });
     });
+  ;
+
+  document.querySelector
+  ('.js-cart-total-quantity')
+    .innerText = `${cartQuantity} Items`
   ;
 }

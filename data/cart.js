@@ -1,3 +1,6 @@
+import { renderOrderSummary } from "../Scripts/checkout/orderSummary.js";
+import { renderPaymentSummary } from "../Scripts/checkout/paymentSummary.js";
+
 export let cart = JSON.parse(localStorage.getItem('cart')) || [{
   productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
   quantity: 2,
@@ -57,9 +60,8 @@ export function updateQuantity (productId, newQuantity) {
       if (newQuantity) {
         if (newQuantity > 0 && newQuantity < 100) {
           cartItem.quantity = Number(newQuantity);
-          document.querySelector(`.quantity-label-${productId}`)
-            .innerText = cartItem.quantity;
-          ;  
+           renderOrderSummary();
+           renderPaymentSummary();
         } else {
           alert('Invalid Quantity');
         }
@@ -81,4 +83,12 @@ export function updateDeliveryOption (productId, deliveryOptionId) {
   matchingItem.deliveryOptionId = deliveryOptionId;
 
   localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+export function updateCartQunatity () {
+  let totalQuantity = 0;
+  cart.forEach((cartItem) => {
+    totalQuantity += cartItem.quantity;
+  });
+  return totalQuantity;
 }
