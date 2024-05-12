@@ -187,10 +187,8 @@ export function renderOrderSummary () {
         });
         cartQuantity = totalQuantity;
 
-        document.querySelector
-        ('.js-cart-total-quantity')
-          .innerText = `${cartQuantity} Items`
-        ;
+        renderOrderSummary();
+        renderPaymentSummary();
       });
     });
   ;
