@@ -1,10 +1,12 @@
 import {products} from '../data/products.js';
-import {cart, addToCart} from '../data/cart.js';
+import {cart, addToCart, updateCartQunatity} from '../data/cart.js';
 import { formatCurrency } from './utils/money.js';
+
+
 
 let productsHTML = '';
 
-export let cartQuantity = JSON.parse(localStorage.getItem('cartQuantity'));
+const cartQuantity = updateCartQunatity();
 
 products.forEach((product) => {
   productsHTML += `
@@ -60,23 +62,10 @@ products.forEach((product) => {
 });
 
 document.querySelector('.js-products-grid')
- .innerHTML = productsHTML
+.innerHTML = productsHTML
 ;
 
-onPageCartQuantity();
 document.querySelector('.js-cart-quantity').innerText = cartQuantity;
-
-// CART QUANTITY DISPLAY
-export function onPageCartQuantity() {
-  let totalQuantity = 0;
-  cart.forEach((cartItem) => {
-    totalQuantity += cartItem.quantity;
-  });
-  cartQuantity = totalQuantity;
-
-  // Update cart quantity in localStorage
-  localStorage.setItem('cartQuantity', JSON.stringify(cartQuantity));
-}
 
 
 // TEXT MESSAGE ADDED POP-UP
@@ -84,7 +73,7 @@ export function onPageCartQuantity() {
 let addedMessageTimeouts = {};
 
 
-export function addedMesagePopup (productId) {
+  function addedMesagePopup (productId) {
   const addedMessage = document.querySelector(`.js-added-message-${productId}`);
 
   addedMessage.classList.add('added-to-cart-active');      
@@ -112,12 +101,20 @@ document.querySelectorAll('.js-cart-btn')
       addToCart(productId, cartQuantity);
           
       // CART QUANTITY DISPLAY 
-      onPageCartQuantity();
-      document.querySelector('.js-cart-quantity').innerText = cartQuantity;
- 
+      calculateCartQunatity();
+
       // ADDED MESSAGE TEXT REVEAL
       addedMesagePopup(productId);
+
 
     });
   });
 ;
+
+function calculateCartQunatity () {
+  const cartQuantity = updateCartQunatity();
+
+  document.querySelector('.js-cart-quantity')
+    .innerText = cartQuantity;
+  ;
+}
