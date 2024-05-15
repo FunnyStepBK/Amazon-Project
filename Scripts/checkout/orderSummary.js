@@ -4,7 +4,7 @@ import { formatCurrency } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getDeliveryOption,calculateDeliveryDate } from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
-
+  
 export function renderOrderSummary () {
 
   let cartSummaryHTML = '';
@@ -91,12 +91,13 @@ export function renderOrderSummary () {
       
       html +=
       `
-        <div class="delivery-option js-delivery-option"
+        <div class="delivery-option js-delivery-option
+        js-delivery-option-${matchingProduct.id}-${deliveryOption.id}"
         data-product-id="${matchingProduct.id}"
         data-delivery-option-id="${deliveryOption.id}">
           <input type="radio"
           ${isChecked ? 'checked' : ''}
-          class="delivery-option-input"
+          class="delivery-option-input js-delivery-input-${matchingProduct.id}-${deliveryOption.id}"
           name="delivery-option-${matchingProduct.id}">
           <div>
             <div class="delivery-option-date">

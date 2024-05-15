@@ -94,11 +94,15 @@ export function updateQuantity (productId, newQuantity) {
 export function updateDeliveryOption (productId, deliveryOptionId) {
   let matchingItem;
 
-  cart.forEach((cartItem) => {
+  cart.forEach((cartItem) => {  
     if (productId === cartItem.productId) {
       matchingItem = cartItem;
     }
   });
+
+  if (!matchingItem) {
+    return;
+  }
 
   matchingItem.deliveryOptionId = deliveryOptionId;
 

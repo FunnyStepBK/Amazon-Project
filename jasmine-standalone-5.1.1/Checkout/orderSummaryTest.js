@@ -1,10 +1,13 @@
 import { cart, loadStorage } from "../../data/cart.js";
 import { renderOrderSummary } from "../../Scripts/checkout/orderSummary.js";
 
+
 describe('test suite: render order Summary', () => {
 
   const productId1 = 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6'; 
   const productId2 = '15b6fc6f-327a-4ec4-896f-486349e85a3d';
+
+  let paymentSummaryContainer;
 
   beforeEach(() => {
 
@@ -17,6 +20,11 @@ describe('test suite: render order Summary', () => {
         <div class="js-cart-total-quantity"></div>
       `
     ;
+
+    paymentSummaryContainer = 
+      document.querySelector('.js-payment-summary')
+    ;
+
 
     spyOn(localStorage, 'getItem').and.callFake(() => {
       return JSON.stringify([
@@ -98,6 +106,28 @@ describe('test suite: render order Summary', () => {
     expect(
       localStorage.setItem).toHaveBeenCalledWith('cart', '[]'
     );
+    
+  });
+
+  it('checks that cliked input is checked', () => {
+
+    document.querySelector(`.js-delivery-option-${productId1}-3`).click();
+
+    expect(document.querySelector(`.js-delivery-input-${productId1}-3`).checked).toEqual(true);
+    
+    expect(cart.length).toEqual(2);
+    expect(cart[0].productId).toEqual(productId1);
+    expect(cart[0].deliveryOptionId).toEqual('3');
+    console.log(cart);
+    
+    expect(paymentSummaryContainer.innerText).toContain(
+      '$14.98'
+    );
+    expect(paymentSummaryContainer.innerText).toContain(
+      '$63.50'
+    );
+
+
     
   });
   
