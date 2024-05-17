@@ -135,7 +135,7 @@ describe('test suite: updateDeliveryOption', () => {
 
   it('updates the delivery option id of an unexisting product', () => {
 
-    updateDeliveryOption('6b07d4e7-f540-454e-8a1e-363f25dbae7d');
+    updateDeliveryOption('6b07d4e7-f540-454e-8a1e-363f25dbae7d', '1');
 
     expect(localStorage.setItem).not.toHaveBeenCalledWith('cart',
       JSON.stringify([{
@@ -145,6 +145,22 @@ describe('test suite: updateDeliveryOption', () => {
       }])
     );
     
+  });
+
+  it('give the function a undefined deliveryOptionId', () => {
+
+    updateDeliveryOption(productId1, 'hello');
+
+    expect(localStorage.setItem).not.toHaveBeenCalledWith('cart',
+      JSON.stringify([{
+        productId: productId1,
+        quantity: 1,
+        deliveryOptionId: '1'
+      }])
+    );
+
+    console.log(cart);
+
   });
 
 }); 

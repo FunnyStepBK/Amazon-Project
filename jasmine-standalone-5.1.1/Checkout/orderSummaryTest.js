@@ -118,7 +118,6 @@ describe('test suite: render order Summary', () => {
     expect(cart.length).toEqual(2);
     expect(cart[0].productId).toEqual(productId1);
     expect(cart[0].deliveryOptionId).toEqual('3');
-    console.log(cart);
     
     expect(paymentSummaryContainer.innerText).toContain(
       '$14.98'

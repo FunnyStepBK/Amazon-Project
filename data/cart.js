@@ -104,9 +104,17 @@ export function updateDeliveryOption (productId, deliveryOptionId) {
     return;
   }
 
-  matchingItem.deliveryOptionId = deliveryOptionId;
+  if (deliveryOptionId === '1' || deliveryOptionId === '2' ||
+  deliveryOptionId === '3') {
+    
+    matchingItem.deliveryOptionId = deliveryOptionId;
 
-  localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+  } else {
+    return;
+  }
+
 }
 
 export function updateCartQunatity () {
