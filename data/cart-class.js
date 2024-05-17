@@ -11,22 +11,22 @@ class Cart {
 
   // * THE VARIABLE THAT HOLDS THE LOCALSTORGE NAME
 
-  localStorageKey;
+  #localStorageKey;
 
 
   // * RUNS THE SETUP CODE FOR THE CLASS
 
   constructor (localStorageKey) {
-    this.localStorageKey = localStorageKey;
-    this.loadStorage();
+    this.#localStorageKey = localStorageKey;
+    this.#loadStorage();
   }
 
 
   // done LOADS THE CART FROM THE LOCALSTORAGE
 
-  loadStorage () {
+  #loadStorage () {
 
-    this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey));
+    this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
 
     if (!this.cartItems) { 
       this.cartItems =
@@ -47,7 +47,7 @@ class Cart {
   // * ADDS PRODUCTS TO THE CART
 
   addToCart (productId) {
-    this.loadStorage();
+    this.#loadStorage();
     let matchingItem = this.cartItems.find(cartItem => cartItem.productId === productId);
   
     const cartItemQuantity = document.querySelector(`.js-cartItem-quantity-${productId}`);
@@ -159,7 +159,7 @@ class Cart {
 
   saveToStorage () {
 
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
 
   };
 
