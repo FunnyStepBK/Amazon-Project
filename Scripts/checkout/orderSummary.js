@@ -1,7 +1,6 @@
-import {cart, removeFromCart, updateQuantity, updateDeliveryOption, updateCartQunatity} from '../../data/cart.js';
-import {products, getProduct } from '../../data/products.js';
+import { cart } from '../../data/cart-class.js';
+import { getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
-import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getDeliveryOption,calculateDeliveryDate } from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
   
@@ -9,9 +8,9 @@ export function renderOrderSummary () {
 
   let cartSummaryHTML = '';
 
-  let cartQuantity = updateCartQunatity();
+  let cartQuantity = cart.updateCartQunatity();
 
-  cart.forEach((cartItem) => {
+  cart.cartItems.forEach((cartItem) => {
 
     const productId = cartItem.productId;
 
@@ -129,7 +128,7 @@ export function renderOrderSummary () {
           input.parentElement.style.display = 'none';
           input.parentElement.nextElementSibling.style.display = 'initial';
           input.parentElement.previousElementSibling.style.display = 'initial';
-          updateQuantity(productId, input.value);
+          cart.updateQuantity(productId, input.value);
         }
       });
     });
@@ -143,7 +142,7 @@ export function renderOrderSummary () {
         link.previousElementSibling.style.display = 'initial';
         link.previousElementSibling.previousElementSibling.style.display = 'none';
         const quantityInput = document.getElementById(`quantity-input-${productId}`);
-        cart.forEach((cartItem) => {
+        cart.cartItems.forEach((cartItem) => {
           if (cartItem.productId === productId) {
             quantityInput.value = cartItem.quantity;
           }
@@ -154,9 +153,9 @@ export function renderOrderSummary () {
           link.style.display = 'initial';
           link.previousElementSibling.style.display = 'none';
           link.previousElementSibling.previousElementSibling.style.display = 'initial';
-          updateQuantity(productId, quantityInput.value);
+          cart.updateQuantity(productId, quantityInput.value);
           let totalQuantity = 0;
-          cart.forEach((cartItem) => {
+          cart.cartItems.forEach((cartItem) => {
             totalQuantity += cartItem.quantity;
           });
           cartQuantity = totalQuantity;
@@ -173,10 +172,10 @@ export function renderOrderSummary () {
     .forEach((link) => {
       link.addEventListener('click', () => {
         const productId = link.dataset.productId;
-        removeFromCart(productId);
+        cart.removeFromCart(productId);
 
         let totalQuantity = 0;
-        cart.forEach((cartItem) => {
+        cart.cartItems.forEach((cartItem) => {
           totalQuantity += cartItem.quantity;
         });
         cartQuantity = totalQuantity;
@@ -191,7 +190,7 @@ export function renderOrderSummary () {
     .forEach((option) => {
       option.addEventListener('click', () => {
         const {productId, deliveryOptionId} = option.dataset;
-        updateDeliveryOption(productId, deliveryOptionId);
+        cart.updateDeliveryOption(productId, deliveryOptionId);
         renderOrderSummary();
         renderPaymentSummary();
       });

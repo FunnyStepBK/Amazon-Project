@@ -96,15 +96,17 @@ class Cart {
   // * UPDATES THE QUANTITY OF THE PRODUCT WHOSE QUANTITY HAS BEEN CHANGED ON THE PAGE
 
   updateQuantity (productId, newQuantity) {
+    
     this.cartItems.forEach((cartItem) => {
       if (cartItem.productId === productId) {
         if (newQuantity) {
-          if (newQuantity > 0 && newQuantity < 100) {
+          if (newQuantity > 0 && newQuantity < 20 && Number.isInteger(Number(newQuantity))) {
             cartItem.quantity = Number(newQuantity);
             renderOrderSummary();
             renderPaymentSummary();
           } else {
             alert('Invalid Quantity');
+            return;
           }
         }
       }
@@ -166,8 +168,8 @@ class Cart {
 };
 
 
-const cart = new Cart('cart-oop');
-const businessCart = new Cart('cart-business');
+export const cart = new Cart('cart-oop');
+export const businessCart = new Cart('cart-business');
 
 
 console.log(cart);
