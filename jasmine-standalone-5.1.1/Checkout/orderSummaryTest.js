@@ -1,4 +1,4 @@
-import { cart, loadStorage } from "../../data/cart.js";
+import { cart } from "../../data/cart-class.js";
 import { renderOrderSummary } from "../../Scripts/checkout/orderSummary.js";
 
 
@@ -41,7 +41,7 @@ describe('test suite: render order Summary', () => {
       ]);
     });
 
-    loadStorage(); 
+    cart.loadStorage(); 
     
     renderOrderSummary();
 
@@ -100,11 +100,11 @@ describe('test suite: render order Summary', () => {
 
     expect(document.querySelector(`.js-cart-item-container-${productId2}`)).not.toEqual(null);
 
-    expect(cart.length).toEqual(1);
-    expect(cart[0].productId).toEqual(productId2);
+    expect(cart.cartItems.length).toEqual(1);
+    expect(cart.cartItems[0].productId).toEqual(productId2);
 
     expect(
-      localStorage.setItem).toHaveBeenCalledWith('cart', '[]'
+      localStorage.setItem).toHaveBeenCalledWith('cart-oop', '[]'
     );
     
   });
@@ -115,9 +115,9 @@ describe('test suite: render order Summary', () => {
 
     expect(document.querySelector(`.js-delivery-input-${productId1}-3`).checked).toEqual(true);
     
-    expect(cart.length).toEqual(2);
-    expect(cart[0].productId).toEqual(productId1);
-    expect(cart[0].deliveryOptionId).toEqual('3');
+    expect(cart.cartItems.length).toEqual(2);
+    expect(cart.cartItems[0].productId).toEqual(productId1);
+    expect(cart.cartItems[0].deliveryOptionId).toEqual('3');
     
     expect(paymentSummaryContainer.innerText).toContain(
       '$14.98'

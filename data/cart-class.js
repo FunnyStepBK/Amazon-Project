@@ -4,27 +4,27 @@ import { renderPaymentSummary } from "../Scripts/checkout/paymentSummary.js";
 
 class Cart {
 
-  // * THE VARIABLE THAT STORES THE WHOLE CART
+  // DONE - THE VARIABLE THAT STORES THE WHOLE CART
 
   cartItems;
 
 
-  // * THE VARIABLE THAT HOLDS THE LOCALSTORGE NAME
+  // DONE - VARIABLE THAT HOLDS THE LOCALSTORGE NAME (private, only usable inside the class)
 
   #localStorageKey;
 
 
-  // * RUNS THE SETUP CODE FOR THE CLASS
+  // DONE - THE SETUP CODE FOR THE CLASS
 
   constructor (localStorageKey) {
     this.#localStorageKey = localStorageKey;
-    this.#loadStorage();
+    this.loadStorage();
   }
 
 
-  // done LOADS THE CART FROM THE LOCALSTORAGE
+  // DONE - LOADS THE CART FROM THE LOCALSTORAGE (private, only usable inside the class)
 
-  #loadStorage () {
+  loadStorage () {
 
     this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
 
@@ -44,10 +44,10 @@ class Cart {
   };
 
   
-  // * ADDS PRODUCTS TO THE CART
+  // DONE - ADDS PRODUCTS TO THE CART
 
   addToCart (productId) {
-    this.#loadStorage();
+    this.loadStorage();
     let matchingItem = this.cartItems.find(cartItem => cartItem.productId === productId);
   
     const cartItemQuantity = document.querySelector(`.js-cartItem-quantity-${productId}`);
@@ -75,7 +75,7 @@ class Cart {
   };
 
 
-  // * REMOVES A PRODUCT FROM THE CART
+  // DONE - REMOVES A PRODUCT FROM THE CART
 
   removeFromCart (productId) {
     const newCart = [];
@@ -93,7 +93,7 @@ class Cart {
   };
   
   
-  // * UPDATES THE QUANTITY OF THE PRODUCT WHOSE QUANTITY HAS BEEN CHANGED ON THE PAGE
+  // DONE - UPDATES THE QUANTITY OF THE PRODUCT WHOSE QUANTITY HAS BEEN CHANGED ON THE PAGE
 
   updateQuantity (productId, newQuantity) {
     
@@ -117,7 +117,7 @@ class Cart {
   };
 
 
-  // * UPDATES THE DELIVERY OPTION OF A PRODUCT BASED ON THE DESIRED OPTION
+  // DONE - UPDATES THE DELIVERY OPTION OF A PRODUCT BASED ON THE DESIRED OPTION
 
   updateDeliveryOption (productId, deliveryOptionId) {
     let matchingItem;
@@ -146,7 +146,7 @@ class Cart {
   };
 
 
-  // done UPDATES THE TOTAL CART QUANTITY WHENEVER A NEW OR EXISTING PRODUCT IS ADDED TO THE CART
+  // DONE - UPDATES THE TOTAL CART QUANTITY WHENEVER A NEW OR EXISTING PRODUCT IS ADDED TO THE CART
 
   updateCartQunatity () {
     let totalQuantity = 0;
@@ -157,7 +157,7 @@ class Cart {
   };
 
 
-  // * UPDATES THE LOCALSTORAGE 
+  // DONE - UPDATES THE LOCALSTORAGE 
 
   saveToStorage () {
 
@@ -171,6 +171,3 @@ class Cart {
 export const cart = new Cart('cart-oop');
 export const businessCart = new Cart('cart-business');
 
-
-console.log(cart);
-console.log(businessCart);
