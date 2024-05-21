@@ -75,6 +75,7 @@ describe('test suite: removeFromCart', () => {
   it('removes a product from the cart', () => {
 
     cart.removeFromCart(productId1);
+    console.log(cart.cartItems);
     expect(cart.cartItems.length).toEqual(0);
     
     expect(localStorage.setItem).toHaveBeenCalledWith('cart-oop',

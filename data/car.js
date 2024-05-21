@@ -37,7 +37,7 @@ class Car {
 
   break () {
     if (this.speed === 0) {
-      console.log('Breaks were applied but the car is not moving.')
+      console.log('Breaks were applied but the car is not moving.');
       return;
     }
     this.speed -= 5;
@@ -53,7 +53,7 @@ class Car {
 
   openTrunk () {
     if (this.isMoving) {
-      console.log('Cannot open the trunk the Car is moving.');
+      console.log('Cannot open the trunk while the Car is moving Idiot.');
       return;
     }
     this.isTrunkOpen = true;
@@ -126,12 +126,15 @@ car1.closeTrunk();
 car1.go();
 car1.go();
 car1.go();
+car1.break();
 
-car1.stop();
-
+// car1.stop();
 car1.openTrunk();
 
 
+
+car2.go();
+car2.go();
 car2.go();
 car2.go();
 car2.go();
@@ -150,3 +153,4 @@ raceCar1.break();
 car1.displayInfo();
 car2.displayInfo();
 raceCar1.displayInfo();
+
