@@ -1,4 +1,5 @@
 import { cart } from "../../data/cart-class.js";
+import { loadProducts } from "../../data/products.js";
 import { renderOrderSummary } from "../../Scripts/checkout/orderSummary.js";
 
 
@@ -8,6 +9,14 @@ describe('test suite: render order Summary', () => {
   const productId2 = '15b6fc6f-327a-4ec4-896f-486349e85a3d';
 
   let paymentSummaryContainer;
+
+  beforeAll((done) => {
+
+    loadProducts(() => {
+      done();
+    });
+
+  });
 
   beforeEach(() => {
 
@@ -42,7 +51,6 @@ describe('test suite: render order Summary', () => {
     });
 
     cart.loadStorage(); 
-    
     renderOrderSummary();
 
   });
@@ -50,9 +58,9 @@ describe('test suite: render order Summary', () => {
   afterEach(() => {
 
     document.querySelector('.js-test-container')
-      .innerHTML = ''
-    ;
-    
+    .innerHTML = ''
+    ;  
+
   });
   
   it('displays the cart', () => {    
