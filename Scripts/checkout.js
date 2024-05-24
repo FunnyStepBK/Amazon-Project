@@ -1,5 +1,5 @@
 import { loadCart } from "../data/cart-class.js";
-import { loadProducts } from "../data/products.js";
+import { fetchProducts } from "../data/products.js";
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js"; 
 // import '../data/cart-class.js'
@@ -9,12 +9,9 @@ import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 
 Promise.all([
 
-  new Promise((resolve) => {
-    loadProducts(() => {
-      resolve('value1');
-    });
-    
-  }),
+  fetchProducts(),
+
+
   new Promise ((resolve) => {
     loadCart(() => {
       resolve('value2');
