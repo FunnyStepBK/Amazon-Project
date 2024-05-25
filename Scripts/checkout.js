@@ -1,4 +1,3 @@
-import { loadCart } from "../data/cart-class.js";
 import { fetchProducts } from "../data/products.js";
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js"; 
@@ -8,8 +7,14 @@ import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 
 
 async function loadPage () {
-  await fetchProducts();
 
+  try {
+    await fetchProducts();
+    
+  } catch (error) {
+    console.error('Unexpected Error. Please try again later.', error);
+  }
+  
   renderOrderSummary();
   renderPaymentSummary();
   
