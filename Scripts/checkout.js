@@ -7,49 +7,28 @@ import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 // import '../data/backend-practice.js'
 
 
-Promise.all([
-
-  fetchProducts(),
-
-
-  new Promise ((resolve) => {
-    loadCart(() => {
-      resolve('value2');
-    });
-  })
-  
-]).then((value) => {
-  console.log(value);
+async function loadPage () {
+  await fetchProducts();
 
   renderOrderSummary();
   renderPaymentSummary();
-
-});
-
-/*
-new Promise((resolve) => {
-  loadProducts(() => {
-    resolve('value1');
-  });
   
-}).then((value) => {
-  console.log(value);
-  
-  return new Promise ((resolve) => {
-    loadCart(() => {
-      resolve();
-    });
-  });
-  
-}).then(() => {
-  renderOrderSummary();
-  renderPaymentSummary();
-});
+}
 
-// loadProducts(() => {
-//   loadCart(() => {
-//     renderOrderSummary();
-//     renderPaymentSummary();
-//   });
-// });
-*/
+async function fetchData() {
+  const response = await fetch('https://supersimplebackend.dev/cart');
+  const data = await response.text();
+  return data;
+}
+
+async function getData() {
+  try {
+    const data = await fetchData();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+getData(); 
+loadPage();

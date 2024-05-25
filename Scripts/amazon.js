@@ -1,9 +1,14 @@
 import { products, fetchProducts } from '../data/products.js';
 import { cart } from '../data/cart-class.js';
 
-fetchProducts().then(() => {
+
+async function loadPage () {
+  await fetchProducts();
+
   renderProductsGrid();
-});
+}
+
+loadPage();
 
 function renderProductsGrid () {
 
